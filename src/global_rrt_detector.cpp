@@ -71,17 +71,17 @@ int main(int argc, char **argv)
   float eta,init_map_x,init_map_y,range;
   std::string map_topic,base_frame_topic;
   
-  std::string ns;
-  ns=ros::this_node::getName();
+  //std::string ns;
+  //ns=ros::this_node::getName();
 
-  ros::param::param<float>(ns+"/eta", eta, 0.5);
-  ros::param::param<std::string>(ns+"/map_topic", map_topic, "/robot_1/map"); 
+  ros::param::param<float>("/eta", eta, 0.5);
+  ros::param::param<std::string>("/map_topic", map_topic, "/map"); 
 //---------------------------------------------------------------
 ros::Subscriber sub= nh.subscribe(map_topic, 100 ,mapCallBack);	
 ros::Subscriber rviz_sub= nh.subscribe("/clicked_point", 100 ,rvizCallBack);	
 
 ros::Publisher targetspub = nh.advertise<geometry_msgs::PointStamped>("/detected_points", 10);
-ros::Publisher pub = nh.advertise<visualization_msgs::Marker>(ns+"_shapes", 10);
+ros::Publisher pub = nh.advertise<visualization_msgs::Marker>("lichao_shapes", 10);
 
 ros::Rate rate(100); 
  
@@ -92,8 +92,8 @@ while (mapData.header.seq<1 or mapData.data.size()<1)  {  ros::spinOnce();  ros:
 
 
 //visualizations  points and lines..
-points.header.frame_id=mapData.header.frame_id;
-line.header.frame_id=mapData.header.frame_id;
+points.header.frame_id="map";
+line.header.frame_id="map";
 points.header.stamp=ros::Time(0);
 line.header.stamp=ros::Time(0);
 	

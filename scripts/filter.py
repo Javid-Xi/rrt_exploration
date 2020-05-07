@@ -68,9 +68,9 @@ def node():
  	
  	if len(namespace) > 0:	 
 	 	for i in range(0,n_robots):
-			rospy.Subscriber(namespace+str(i+namespace_init_count)+'/move_base_node/global_costmap/costmap', OccupancyGrid, globalMap) 
+			rospy.Subscriber('/move_base/global_costmap/costmap', OccupancyGrid, globalMap) 
 	elif len(namespace)==0:
-			rospy.Subscriber('/move_base_node/global_costmap/costmap', OccupancyGrid, globalMap) 	
+			rospy.Subscriber('/move_base/global_costmap/costmap', OccupancyGrid, globalMap) 	
 #wait if map is not received yet
 	while (len(mapData.data)<1):
 		pass
@@ -85,7 +85,7 @@ def node():
 	tfLisn=tf.TransformListener()
 	if len(namespace) > 0:
 		for i in range(0,n_robots):
-			tfLisn.waitForTransform(global_frame[1:], namespace+str(i+namespace_init_count)+'/base_link', rospy.Time(0),rospy.Duration(10.0))
+			tfLisn.waitForTransform(global_frame[1:], '/base_link', rospy.Time(0),rospy.Duration(10.0))
 	elif len(namespace)==0:
 			tfLisn.waitForTransform(global_frame[1:], '/base_link', rospy.Time(0),rospy.Duration(10.0))
 	
